@@ -3,6 +3,9 @@ import time
 from smbus import SMBus
 b = SMBus(1)
 
+# Datasheet here
+# https://support.newhavendisplay.com/hc/en-us/article_attachments/4414498095511/AiP31068.pdf
+
 #Device I2C Arress
 LCD_ADDRESS   =  (0x7c>>1)
 RGB_ADDRESS   =  (0xc0>>1)
