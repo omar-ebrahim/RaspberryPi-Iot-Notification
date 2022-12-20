@@ -22,10 +22,9 @@ def message_handler(message):
 
     print("message received")
     message_dict = vars(message)
-    # It has a b' indicating it's a byte array so can't be parsed as valid JSON
-    # so convert it to a string, remove the b' and last single-quote and load it as JSON again
-    message_data = str(message_dict["data"])
-    message_data = message_data[2:len(message_data)-1]
+    
+    message_data = message_dict["data"]
+    print("message: {}".format(message_data))
     notification_data = json.loads(message_data)
     if NOTIFICATION_KEY in notification_data:
         notification_message = notification_data[NOTIFICATION_KEY]
