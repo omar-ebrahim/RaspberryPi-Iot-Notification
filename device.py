@@ -11,12 +11,13 @@ CONNECTION_STRING = "HostName=oe-iot.azure-devices.net;DeviceId=omar-rpi;SharedA
 NOTIFICATION_KEY = "notification"
 
 lcd = RGB1602.RGB1602(16, 2)
-
+lcd.setRGB(255,0,0)
 
 def message_handler(message):
     """
     Handles the message from Azure IoT Hub
     """
+    lcd.setRGB(255, 255, 255)
     lcd.setCursor(0, 0)
     lcd.printout("new message")
 
@@ -40,26 +41,40 @@ def message_handler(message):
                 time.sleep(1)
                 lcd.scrollLeft()
 
+        time.sleep(5)
+#        lcd.clear()
+        lcd.setRGB(0,0,0)
+
 
 def main():
     print("starting ...")
-    print(platform.platform())
+    lcd.clear()
+    lcd.setCursor(0,0)
+    lcd.printout("Starting...")
     client = IoTHubDeviceClient.create_from_connection_string(
         CONNECTION_STRING)
     print("Waiting for messages. Press Ctrl-C to exit")
 
-    lcd.clear()
-
     try:
         client.on_message_received = message_handler
         client.connect()
+        time.sleep(2)
+        lcd.clear()
+        lcd.setRGB(255,255,255)
         while True:
             time.sleep(10)
     except KeyboardInterrupt:
         print("user stopped service")
     finally:
+        lcd.clear()
+        lcd.setRGB(255, 0, 0)
+        lcd.setCursor(0,0)
+        lcd.printout("Shutting down")
         print("Shutting down")
         client.shutdown()
+        time.sleep(2)
+        lcd.clear()
+        lcd.setRGB(0,0,0)
 
 
 if __name__ == '__main__':
